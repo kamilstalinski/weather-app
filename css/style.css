@@ -128,7 +128,7 @@ nav .search-btn:hover {
     margin: 0 auto;
     padding: 70px 100px 70px 100px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     color: #fff;
 }
 
@@ -143,6 +143,7 @@ nav .search-btn:hover {
 }
 
 .additional-info .additional-container .next-days {
+    max-width: 700px;
     flex-basis: 100%;
     padding-left: 50px;
     border-left: 1px solid #c9c9c9;
@@ -164,11 +165,12 @@ h3 {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
 }
 
 .additional-info .additional-container .details-container .details-item {
-    width: 120px;
+    flex-basis: 30%;
+    padding-right: 50px;
 }
 
 .additional-info .additional-container .details-container .details-item h3 {
