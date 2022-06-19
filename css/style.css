@@ -1,3 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
 body {
-    background-color: red;
+    height: 100vh;
+    background-image: url('https://source.unsplash.com/1600x900/?$sunny-weather');
+    /* background: rgb(2, 0, 36); */
+    background: linear-gradient(180deg, rgba(2, 0, 36, 1) 0%, rgba(9, 78, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: inherit;
+    font-family: 'Libre Franklin';
+}
+
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 100px;
+
+}
+
+
+/* Navigation section */
+nav {
+    padding-top: 40px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+nav input.search {
+    width: 260px;
+    height: 40px;
+    padding: 15px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background-color: rgba(125, 125, 125, 0.5);
+    opacity: .6;
+}
+
+nav input::placeholder {
+    font-size: 16px;
+    color: rgba(201, 201, 201, 1);
+    opacity: 1;
+    font-family: 'Libre Franklin', serif;
+}
+
+nav .search-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    border: none;
+    background-color: rgba(125, 125, 125, 0.5);
+    opacity: .6;
+    color: #fff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+nav .search-btn:hover {
+    background-color: rgba(236, 236, 236, 0.5);
+}
+
+/* Weather information section */
+.weather {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.weather .temp-city-container {
+    display: flex;
+    align-items: flex-end;
+}
+
+.weather .temp-city-container #temp {
+    font-size: 110px;
+    line-height: 98px;
+    margin-right: 10px;
+}
+
+.weather .temp-city-container #city {
+    font-size: 50px;
+}
+
+.weather .temp-city-container #date {
+    font-size: 25px;
 }
