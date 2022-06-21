@@ -40,7 +40,7 @@ nav input.search {
     border-radius: 30px;
     outline: none;
     background-color: rgba(125, 125, 125, 0.7);
-
+    color: #fff;
 }
 
 nav input::placeholder {
