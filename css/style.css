@@ -21,10 +21,6 @@ body {
     padding: 0 100px;
 }
 
-.weather-icon {
-    color: #fff;
-}
-
 /* Loader */
 .loader {
     position: fixed;
@@ -79,14 +75,14 @@ body {
 
 
 /* Navigation section */
-nav {
+nav.search-bar {
     padding-top: 40px;
     display: flex;
     justify-content: end;
     align-items: center;
 }
 
-nav input.search {
+nav.search-bar input.search {
     width: 260px;
     height: 40px;
     padding: 15px 20px;
@@ -94,18 +90,18 @@ nav input.search {
     border: none;
     border-radius: 30px;
     outline: none;
-    background-color: rgba(125, 125, 125, 0.7);
+    background-color: rgba(125, 125, 125, 0.5);
     color: #fff;
 }
 
-nav input::placeholder {
+nav.search-bar input::placeholder {
     font-size: 16px;
     color: rgba(201, 201, 201, 1);
     opacity: 1;
     font-family: 'Libre Franklin', serif;
 }
 
-nav .search-btn {
+nav.search-bar .search-btn {
     width: 40px;
     height: 40px;
     display: flex;
@@ -113,13 +109,13 @@ nav .search-btn {
     align-items: center;
     border-radius: 30px;
     border: none;
-    background-color: rgba(125, 125, 125, 0.7);
+    background-color: rgba(125, 125, 125, 0.5);
     color: #fff;
     font-size: 25px;
     cursor: pointer;
 }
 
-nav .search-btn:hover {
+nav.search-bar .search-btn:hover {
     background-color: rgba(153, 153, 153, 0.5);
 }
 
