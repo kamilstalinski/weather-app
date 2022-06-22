@@ -7,12 +7,13 @@
 
 body {
     height: 100vh;
-    background: linear-gradient(180deg, rgba(68, 78, 88, 0.1) 40%, rgb(0, 0, 0) 100%), url('../img/ben-collins-VOduaHPrLrs-unsplash.jpg');
+    background: rgba(0, 128, 255, 0.5);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: inherit;
     font-family: 'Libre Franklin';
     position: relative;
+    overflow: hidden;
 }
 
 .container {
@@ -20,6 +21,62 @@ body {
     margin: 0 auto;
     padding: 0 100px;
 
+}
+
+/* Loader */
+.loader {
+    width: 100vw;
+    transform: translateX(-100px);
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, .4);
+    z-index: 11111;
+    ;
+}
+
+.lds-ring {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 
@@ -76,6 +133,12 @@ nav .search-btn:hover {
     align-items: flex-end;
     color: #fff;
     z-index: 111;
+    opacity: 0;
+    transition: .6s ease-in-out;
+}
+
+.weather-active {
+    opacity: 1;
 }
 
 .weather .temp-city-container {
@@ -90,11 +153,11 @@ nav .search-btn:hover {
 }
 
 .weather .temp-city-container #city {
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .weather .temp-city-container #date {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .weather .description-container {
@@ -103,8 +166,9 @@ nav .search-btn:hover {
 }
 
 .weather .description-container #description {
-    font-size: 50px;
+    font-size: 40px;
     margin-right: 10px;
+    text-transform: capitalize;
 }
 
 .weather .description-container #icon {
@@ -121,6 +185,12 @@ nav .search-btn:hover {
     background: rgba(68, 78, 88, 0.5);
     box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(3px);
+    transform: translateY(375px);
+    transition: .3s ease-in-out;
+}
+
+.additional-info.active {
+    transform: translateY(0);
 }
 
 .additional-info .additional-container {
