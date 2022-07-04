@@ -6,6 +6,10 @@ const weatherTemp = document.getElementById('temp');
 const weatherHumidity = document.getElementById('humidity');
 const weatherDate = document.getElementById('date');
 const weatherDescription = document.getElementById('description');
+const weatherWind = document.getElementById('wind');
+const weatherClouds = document.getElementById('clouds');
+const weatherContainer = document.querySelector('.weather');
+const detailsContainer = document.querySelector('.additional-info');
 
 //Getting current coordinates and running main function
 let cityName;
@@ -16,11 +20,13 @@ const getLocation = () => {
             let lat = position.coords.latitude;
             let long = position.coords.longitude;
 
+
             fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${apiKey}`)
                 .then(res => res.json())
                 .then((data) => {
                     cityName = data[0].name;
                     currentWeather.fetchCurrentWeather(cityName)
+                    console.log(lat, long)
                 })
         });
 
@@ -34,16 +40,18 @@ const getLocation = () => {
 const setClockAndDate = () => {
     setInterval(() => {
         const date = new Date();
+        const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         let hours = date.getHours();
         let minutes = date.getMinutes();
-        let seconds = date.getSeconds();
+        let day = date.getDay();
+        let monthName = month[date.getMonth()]
+        let year = date.getFullYear();
 
         if (hours < 10) hours = '0' + hours;
         if (minutes < 10) minutes = '0' + minutes;
-        if (seconds < 10) seconds = '0' + seconds;
 
-        weatherDate.innerText = `${hours}:${minutes}:${seconds}`;
+        weatherDate.innerText = `${hours}:${minutes}, ${day} ${monthName} ${year}`;
     }, 1000)
 }
 
@@ -65,19 +73,22 @@ let currentWeather = {
     // Setting current weather from API by changing DOM
     setCurrentWeather: function (data) {
         document.querySelector('.loader').style.display = 'none';
-        document.querySelector('.weather').classList.add('weather-active');
-        document.querySelector('nav').classList.add('search-active');
-        document.querySelector('.additional-info').classList.add('active');
-
+        weatherContainer.classList.add('weather-active');
+        detailsContainer.classList.add('active');
+        console.log(data)
         const { name } = data;
         const { temp, humidity } = data.main;
         const { country } = data.sys;
         const { description } = data.weather[0];
+        const { wind } = data;
+        const { clouds } = data;
 
         weatherCity.innerText = name + ', ' + country;
         weatherTemp.innerText = Math.ceil(temp) + '°';
         weatherHumidity.innerText = humidity + '%';
         weatherDescription.innerText = description;
+        weatherWind.innerHTML = wind.speed + 'km/h';
+        weatherClouds.innerHTML = clouds.all + '%';
 
         this.setIcon(description);
     },
@@ -85,8 +96,7 @@ let currentWeather = {
     //Setting weather icon and background according to current weather 
     setIcon: function (description) {
         const weatherIcon = document.getElementById('icon')
-        const bgImage = `linear-gradient(180deg, rgba(68, 78, 88, 0.1) 40%, rgb(0, 0, 0) 100%), url("./img/background/${description}.jpg")`
-        console.log(description)
+        const bgImage = `linear-gradient(180deg, rgba(68, 78, 88, 0.1) 20%, rgb(0, 0, 0) 100%), url("./img/background/${description}.jpg")`
 
         if (description === 'clear sky') {
             weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
@@ -127,15 +137,21 @@ let currentWeather = {
     }
 };
 
-
+window.addEventListener('load', getLocation());
 
 
 
 document.querySelector('.search-btn').addEventListener('click', () => {
-    currentWeather.searchCity();
+    setTimeout(() => {
+        currentWeather.searchCity();
+    }, 2000)
 })
 
-getLocation();
+document.querySelector('.search').addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') currentWeather.searchCity();
+});
+
+
 
 
 

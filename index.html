@@ -13,15 +13,22 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="loader">
-            <div class="lds-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+    <div class='ripple-background'>
+        <div class='circle xxlarge shade1'></div>
+        <div class='circle xlarge shade2'></div>
+        <div class='circle large shade3'></div>
+        <div class='circle mediun shade4'></div>
+        <div class='circle small shade5'></div>
+    </div>
+    <div class="loader">
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
+    </div>
+    <div class="container">
         <nav class="search-bar">
             <input class="search" type="text" placeholder="Search">
             <button class="search-btn">
@@ -50,21 +57,30 @@
             <div class="additional-container">
                 <div class="weather-details">
                     <h2>Weather Details</h2>
-                    <div class="info-item">
-                        <h3>Cloudy</h3>
-                        <p id="clouds">3%</p>
+                    <div class="details-container">
+                        <div class="info-item">
+                            <h3>Min</h3>
+                            <p id="min">21</p>
+                        </div>
+                        <div class="info-item">
+                            <h3>Max</h3>
+                            <p id="max">34</p>
+                        </div>
+                        <div class="info-item">
+                            <h3>Cloudy</h3>
+                            <p id="clouds">3%</p>
+                        </div>
+                        <div class="info-item">
+                            <h3>Humidity</h3>
+                            <p id="humidity">49%</p>
+                        </div>
+                        <div class="info-item">
+                            <h3>Wind</h3>
+                            <p id="wind">8km/h</p>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <h3>Humidity</h3>
-                        <p id="humidity">49%</p>
-                    </div>
-                    <div class="info-item">
-                        <h3>Wind</h3>
-                        <p id="humidity">8km/h</p>
-                    </div>
-
                 </div>
-                <div class="next-days">
+                <!-- <div class="next-days">
                     <h2>Next Days</h2>
                     <div class="details-container">
                         <div class="details-item">
@@ -128,7 +144,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="map">
                     <!-- <iframe width="350" height="250" style="border:0" loading="lazy" allowfullscreen
                         src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJWafTADgJqkcR88SKX07cWqk&key=AIzaSyCMcsawIHCAVBQOuo1Z6bRJAVHCrwn_H5M"></iframe> -->
