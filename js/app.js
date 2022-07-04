@@ -14,35 +14,40 @@ const detailsContainer = document.querySelector('.additional-info');
 //Getting current coordinates and running main function
 
 let cityName;
+let lat;
+let long;
 
-const fetchAPI = () => {
+const getLocation = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
-            let lat = position.coords.latitude;
-            let long = position.coords.longitude;
+            lat = position.coords.latitude;
+            long = position.coords.longitude;
 
-
-            Promise.all([
-                fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${apiKey}`)
-                    .then(res => res.json()),
-                fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&exclude=minutely,alert&units=metric&appid=${apiKey}`)
-                    .then(res => res.json())
-            ])
-                .then(data => {
-                    currentWeather.setCurrentWeather(data[0][0].name, data[1].current);
-                    dailyWeather.setDailyWeather(data[1].daily)
-                    hourlyWeather.setHourlyWeather(data[1].hourly)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-
-        });
+            fetchWeatherAPI(lat, long)
+        })
     } else {
         alert('Geolocation is not supported in this browser')
-    };
+    }
+}
 
-};
+const fetchWeatherAPI = (lat, long) => {
+
+    Promise.all([
+        fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${apiKey}`)
+            .then(res => res.json()),
+        fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&exclude=minutely,alert&units=metric&appid=${apiKey}`)
+            .then(res => res.json())
+    ])
+        .then(data => {
+            currentWeather.setCurrentWeather(data[0][0].name, data[1].current);
+            dailyWeather.setDailyWeather(data[1].daily)
+            hourlyWeather.setHourlyWeather(data[1].hourly)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}
 
 // //setting current Time and Date
 const setClockAndDate = () => {
@@ -94,6 +99,11 @@ let currentWeather = {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
+
+                lat = data[0].lat;
+                long = data[0].lon;
+
+                fetchWeatherAPI(lat, long);
             })
     },
 
@@ -130,7 +140,7 @@ document.querySelector('.search').addEventListener('keyup', (e) => {
 });
 
 window.addEventListener('load', () => {
-    fetchAPI();
+    getLocation();
     setClockAndDate();
 });
 
