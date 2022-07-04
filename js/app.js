@@ -30,15 +30,14 @@ const fetchAPI = () => {
             ])
                 .then(data => {
                     currentWeather.setCurrentWeather(data[0][0].name, data[1].current);
-                    dailyWeather.setDailyWeather(data[1])
+                    dailyWeather.setDailyWeather(data[1].daily)
+                    hourlyWeather.setHourlyWeather(data[1].hourly)
                 })
                 .catch(err => {
                     console.log(err)
                 })
 
         });
-
-        setClockAndDate();
     } else {
         alert('Geolocation is not supported in this browser')
     };
@@ -67,16 +66,7 @@ const setClockAndDate = () => {
 // //Object which stores functions about current weather
 let currentWeather = {
 
-    //fetching data from openweathermap.org
-    // fetchCurrentWeather: function (city) {
-    //     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
-    //         .then(res => res.json())
-    //         .then(data => this.setCurrentWeather(data))
-    // },
-
-
-
-    // Setting current weather from API by changing DOM
+    // Setting current weather from API by changing DOMgit
     setCurrentWeather: function (cityName, weatherData) {
         document.querySelector('.loader').style.display = 'none';
         weatherContainer.classList.add('weather-active');
@@ -125,20 +115,24 @@ let dailyWeather = {
     }
 }
 
-window.addEventListener('load', fetchAPI());
-
-
+let hourlyWeather = {
+    setHourlyWeather: (data) => {
+        console.log(data)
+    }
+}
 
 document.querySelector('.search-btn').addEventListener('click', () => {
-    setTimeout(() => {
-        currentWeather.searchCity();
-    }, 2000)
+    currentWeather.searchCity();
 })
 
 document.querySelector('.search').addEventListener('keyup', (e) => {
     if (e.key === 'Enter') currentWeather.searchCity();
 });
 
+window.addEventListener('load', () => {
+    fetchAPI();
+    setClockAndDate();
+});
 
 
 
