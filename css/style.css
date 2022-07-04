@@ -169,6 +169,29 @@ nav.search-bar .search-btn:hover {
     width: 110px;
 }
 
+@media screen and (max-width: 1150px) {
+    .weather .temp-city-container #temp {
+        font-size: 90px;
+        line-height: 78px;
+    }
+
+    .weather .temp-city-container #city {
+        font-size: 30px;
+    }
+
+    .weather .temp-city-container #date {
+        font-size: 15px;
+    }
+
+    .weather .description-container #description {
+        font-size: 30px;
+    }
+
+    .weather .description-container #icon {
+        width: 90px;
+    }
+}
+
 /* Additional info section */
 .additional-info {
     position: absolute;
@@ -227,6 +250,10 @@ nav.search-bar .search-btn:hover {
     justify-content: space-between;
 }
 
+.additional-info .additional-container .info-item p {
+    font-size: 20px;
+}
+
 h3 {
     color: #c9c9c9;
     font-size: 20px;
@@ -251,4 +278,21 @@ h3 {
 .additional-info .additional-container .details-container .details-item .details-info {
     display: flex;
     justify-content: space-between;
+}
+
+@media screen and (max-width: 1150px) {
+
+    .additional-info .additional-container h2 {
+        font-size: 20px;
+    }
+
+    .additional-info .additional-container .info-item p {
+        font-size: 17px;
+    }
+
+    h3 {
+        font-size: 17px;
+    }
+
+
 }

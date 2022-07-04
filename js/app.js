@@ -12,28 +12,37 @@ const weatherContainer = document.querySelector('.weather');
 const detailsContainer = document.querySelector('.additional-info');
 
 //Getting current coordinates and running main function
+
 let cityName;
 
-const getLocation = () => {
+const fetchAPI = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
             let lat = position.coords.latitude;
             let long = position.coords.longitude;
 
 
-            fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${apiKey}`)
-                .then(res => res.json())
-                .then((data) => {
-                    cityName = data[0].name;
-                    currentWeather.fetchCurrentWeather(cityName)
-                    console.log(lat, long)
+            Promise.all([
+                fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${apiKey}`)
+                    .then(res => res.json()),
+                fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${long}&exclude=minutely,alert&units=metric&appid=${apiKey}`)
+                    .then(res => res.json())
+            ])
+                .then(data => {
+                    currentWeather.setCurrentWeather(data[0][0].name, data[1].current);
+                    dailyWeather.setDailyWeather(data[1])
                 })
+                .catch(err => {
+                    console.log(err)
+                })
+
         });
 
         setClockAndDate();
     } else {
         alert('Geolocation is not supported in this browser')
     };
+
 };
 
 // //setting current Time and Date
@@ -59,38 +68,43 @@ const setClockAndDate = () => {
 let currentWeather = {
 
     //fetching data from openweathermap.org
-    fetchCurrentWeather: function (city) {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
-            .then(res => res.json())
-            .then(data => this.setCurrentWeather(data))
+    // fetchCurrentWeather: function (city) {
+    //     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
+    //         .then(res => res.json())
+    //         .then(data => this.setCurrentWeather(data))
+    // },
+
+
+
+    // Setting current weather from API by changing DOM
+    setCurrentWeather: function (cityName, weatherData) {
+        document.querySelector('.loader').style.display = 'none';
+        weatherContainer.classList.add('weather-active');
+        detailsContainer.classList.add('active');
+
+        const { temp, humidity } = weatherData;
+        const { description } = weatherData.weather[0];
+        const { wind_speed } = weatherData;
+        const { clouds } = weatherData;
+
+        weatherCity.innerText = cityName;
+        weatherTemp.innerText = Math.ceil(temp) + '°';
+        weatherHumidity.innerText = humidity + '%';
+        weatherDescription.innerText = description;
+        weatherWind.innerHTML = wind_speed + 'km/h';
+        weatherClouds.innerHTML = clouds + '%';
+
+        this.setIcon(description);
     },
 
     searchCity: function () {
         let input = document.querySelector('.search');
-        this.fetchCurrentWeather(input.value);
-    },
 
-    // Setting current weather from API by changing DOM
-    setCurrentWeather: function (data) {
-        document.querySelector('.loader').style.display = 'none';
-        weatherContainer.classList.add('weather-active');
-        detailsContainer.classList.add('active');
-        console.log(data)
-        const { name } = data;
-        const { temp, humidity } = data.main;
-        const { country } = data.sys;
-        const { description } = data.weather[0];
-        const { wind } = data;
-        const { clouds } = data;
-
-        weatherCity.innerText = name + ', ' + country;
-        weatherTemp.innerText = Math.ceil(temp) + '°';
-        weatherHumidity.innerText = humidity + '%';
-        weatherDescription.innerText = description;
-        weatherWind.innerHTML = wind.speed + 'km/h';
-        weatherClouds.innerHTML = clouds.all + '%';
-
-        this.setIcon(description);
+        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${input.value}&limit=1&appid=${apiKey}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
     },
 
     //Setting weather icon and background according to current weather 
@@ -98,46 +112,20 @@ let currentWeather = {
         const weatherIcon = document.getElementById('icon')
         const bgImage = `linear-gradient(180deg, rgba(68, 78, 88, 0.1) 20%, rgb(0, 0, 0) 100%), url("./img/background/${description}.jpg")`
 
-        if (description === 'clear sky') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'few clouds') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'scattered clouds') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'broken clouds') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'shower rain') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'rain') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'thunderstorm') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'snow') {
-            weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
-        }
-        if (description === 'mist') {
+        if (description) {
             weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
             document.body.style.backgroundImage = bgImage;
         }
     }
 };
 
-window.addEventListener('load', getLocation());
+let dailyWeather = {
+    setDailyWeather: (data) => {
+        console.log(data)
+    }
+}
+
+window.addEventListener('load', fetchAPI());
 
 
 
