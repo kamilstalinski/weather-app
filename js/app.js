@@ -8,15 +8,18 @@ const weatherDate = document.getElementById('date');
 const weatherDescription = document.getElementById('description');
 const weatherWind = document.getElementById('wind');
 const weatherClouds = document.getElementById('clouds');
+const weatherMinTemp = document.getElementById('min');
+const weatherMaxTemp = document.getElementById('max');
 const weatherContainer = document.querySelector('.weather');
 const detailsContainer = document.querySelector('.additional-info');
-
-//Getting current coordinates and running main function
+const dailyContainer = document.querySelector('.next-days');
+const loader = document.querySelector('.loader');
 
 let cityName;
 let lat;
 let long;
 
+//Getting current coordinates and running main function
 const getLocation = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -30,6 +33,7 @@ const getLocation = () => {
     }
 }
 
+//Fetching weather data
 const fetchWeatherAPI = (lat, long) => {
 
     Promise.all([
@@ -49,7 +53,7 @@ const fetchWeatherAPI = (lat, long) => {
 
 }
 
-// //setting current Time and Date
+//Setting current Time and Date
 const setClockAndDate = () => {
     setInterval(() => {
         const date = new Date();
@@ -64,18 +68,24 @@ const setClockAndDate = () => {
         if (hours < 10) hours = '0' + hours;
         if (minutes < 10) minutes = '0' + minutes;
 
-        weatherDate.innerText = `${hours}:${minutes}, ${day} ${monthName} ${year}`;
     }, 1000)
 }
 
-// //Object which stores functions about current weather
+//Object which stores functions about current weather
 let currentWeather = {
 
-    // Setting current weather from API by changing DOMgit
+    // Setting current weather from API by changing DOM
     setCurrentWeather: function (cityName, weatherData) {
-        document.querySelector('.loader').style.display = 'none';
+        loader.classList.add('hide')
         weatherContainer.classList.add('weather-active');
         detailsContainer.classList.add('active');
+
+        const date = new Date(weatherData.dt * 1000)
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+
+        weatherDate.innerText = `${hours}:${minutes}`;
+
 
         const { temp, humidity } = weatherData;
         const { description } = weatherData.weather[0];
@@ -88,29 +98,41 @@ let currentWeather = {
         weatherDescription.innerText = description;
         weatherWind.innerHTML = wind_speed + 'km/h';
         weatherClouds.innerHTML = clouds + '%';
+        // weatherMinTemp.innerHTML =
 
         this.setIcon(description);
     },
 
+
+    //Searching choosen city and converting it to coordinates
     searchCity: function () {
         let input = document.querySelector('.search');
 
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${input.value}&limit=1&appid=${apiKey}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
+        if (input.value) {
+            fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${input.value}&limit=1&appid=${apiKey}`)
+                .then(res => res.json())
+                .then(data => {
 
-                lat = data[0].lat;
-                long = data[0].lon;
+                    loader.classList.remove('hide');
 
-                fetchWeatherAPI(lat, long);
-            })
+                    lat = data[0].lat;
+                    long = data[0].lon;
+
+                    setTimeout(() => {
+                        dailyContainer.innerHTML = '';
+                        fetchWeatherAPI(lat, long)
+                        input.value = '';
+                    }, 1000);
+                })
+        } else {
+            alert('Search field cannot be empty!')
+        }
     },
 
     //Setting weather icon and background according to current weather 
     setIcon: function (description) {
         const weatherIcon = document.getElementById('icon')
-        const bgImage = `linear-gradient(180deg, rgba(68, 78, 88, 0.1) 20%, rgb(0, 0, 0) 100%), url("./img/background/${description}.jpg")`
+        const bgImage = `linear-gradient(180deg, rgba(68, 78, 88, 0.1) 50%, rgb(0, 0, 0) 100%), url("./img/background/${description}.jpg")`
 
         if (description) {
             weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
@@ -120,14 +142,52 @@ let currentWeather = {
 };
 
 let dailyWeather = {
-    setDailyWeather: (data) => {
-        console.log(data)
+    setDailyWeather: (dailyData) => {
+        const dailyContainer = document.querySelector('.next-days');
+
+
+        for (let i = 0; i < dailyData.length - 5; i++) {
+            console.log(dailyData[i]);
+
+            let hTag = document.createElement('h1');
+            hTag.innerHTML = dailyData[i].weather[0].description
+            dailyContainer.appendChild(hTag)
+
+
+        }
     }
 }
 
 let hourlyWeather = {
-    setHourlyWeather: (data) => {
-        console.log(data)
+    setHourlyWeather: (hourlyData) => {
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                backgroundColor: 'rgb(255, 255, 255)',
+                borderColor: 'rgb(255, 255, 255)',
+                data: [-10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40],
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
     }
 }
 

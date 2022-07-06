@@ -25,6 +25,7 @@
         <nav class="search-bar">
             <input class="search" type="text" placeholder="Search">
             <button class="search-btn">
+
                 <svg stroke="#FFFFFF" fill="#FFFFFF" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -51,14 +52,14 @@
                 <div class="weather-details">
                     <h2>Weather Details</h2>
                     <div class="details-container">
-                        <div class="info-item">
+                        <!-- <div class="info-item">
                             <h3>Min</h3>
                             <p id="min">21</p>
                         </div>
                         <div class="info-item">
                             <h3>Max</h3>
                             <p id="max">34</p>
-                        </div>
+                        </div> -->
                         <div class="info-item">
                             <h3>Cloudy</h3>
                             <p id="clouds">3%</p>
@@ -73,9 +74,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="next-days">
+                <div class="hourly-chart">
+                    <h2>Hourly</h2>
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="next-days">
                     <h2>Next Days</h2>
-                    <div class="details-container">
+                    <!-- <div class="details-container">
                         <div class="details-item">
                             <h3>Monday</h3>
                             <div class="details-info">
@@ -86,66 +91,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="details-item">
-                            <h3>Monday</h3>
-                            <div class="details-info">
-                                <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-                                <div class="temp-items">
-                                    <p class="temp-day">21°</p>
-                                    <p class="temp-night">13°</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="details-item">
-                            <h3>Monday</h3>
-                            <div class="details-info">
-                                <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-                                <div class="temp-items">
-                                    <p class="temp-day">21°</p>
-                                    <p class="temp-night">13°</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="details-item">
-                            <h3>Monday</h3>
-                            <div class="details-info">
-                                <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-                                <div class="temp-items">
-                                    <p class="temp-day">21°</p>
-                                    <p class="temp-night">13°</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="details-item">
-                            <h3>Monday</h3>
-                            <div class="details-info">
-                                <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-                                <div class="temp-items">
-                                    <p class="temp-day">21°</p>
-                                    <p class="temp-night">13°</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="details-item">
-                            <h3>Monday</h3>
-                            <div class="details-info">
-                                <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-                                <div class="temp-items">
-                                    <p class="temp-day">21°</p>
-                                    <p class="temp-night">13°</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="map">
-                    <!-- <iframe width="350" height="250" style="border:0" loading="lazy" allowfullscreen
-                        src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJWafTADgJqkcR88SKX07cWqk&key=AIzaSyCMcsawIHCAVBQOuo1Z6bRJAVHCrwn_H5M"></iframe> -->
+                    </div> -->
                 </div>
             </div>
         </section>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 
