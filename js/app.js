@@ -11,9 +11,11 @@ const weatherClouds = document.getElementById('clouds');
 const weatherMinTemp = document.getElementById('min');
 const weatherMaxTemp = document.getElementById('max');
 const weatherContainer = document.querySelector('.weather');
+const additionalContainer = document.querySelector('.details-container')
 const detailsContainer = document.querySelector('.additional-info');
 const dailyContainer = document.querySelector('.next-days');
 const loader = document.querySelector('.loader');
+
 
 let cityName;
 let lat;
@@ -27,6 +29,7 @@ const getLocation = () => {
             long = position.coords.longitude;
 
             fetchWeatherAPI(lat, long)
+
         })
     } else {
         alert('Geolocation is not supported in this browser')
@@ -44,13 +47,27 @@ const fetchWeatherAPI = (lat, long) => {
     ])
         .then(data => {
             currentWeather.setCurrentWeather(data[0][0].name, data[1].current);
-            dailyWeather.setDailyWeather(data[1].daily)
-            hourlyWeather.setHourlyWeather(data[1].hourly)
+            dailyWeather.setDailyWeather(data[1].daily);
+            initMap(lat, long)
         })
         .catch(err => {
             console.log(err)
         })
 
+}
+
+//setting initial position of google maps
+const initMap = (lat = 0, long = 0) => {
+
+    let map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: lat, lng: long },
+        zoom: 10,
+    });
+
+    let marker = new google.maps.Marker({
+        position: { lat: lat, lng: long },
+        map: map
+    });
 }
 
 //Setting current Time and Date
@@ -96,7 +113,7 @@ let currentWeather = {
         weatherTemp.innerText = Math.ceil(temp) + '°';
         weatherHumidity.innerText = humidity + '%';
         weatherDescription.innerText = description;
-        weatherWind.innerHTML = wind_speed + 'km/h';
+        weatherWind.innerHTML = Math.round(wind_speed) + 'km/h';
         weatherClouds.innerHTML = clouds + '%';
         // weatherMinTemp.innerHTML =
 
@@ -115,12 +132,14 @@ let currentWeather = {
 
                     loader.classList.remove('hide');
 
+
                     lat = data[0].lat;
                     long = data[0].lon;
 
                     setTimeout(() => {
                         dailyContainer.innerHTML = '';
                         fetchWeatherAPI(lat, long)
+                        initMap(lat, long);
                         input.value = '';
                     }, 1000);
                 })
@@ -136,58 +155,41 @@ let currentWeather = {
 
         if (description) {
             weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            document.body.style.backgroundImage = bgImage;
+            // document.body.style.backgroundImage = bgImage;
         }
     }
 };
 
 let dailyWeather = {
     setDailyWeather: (dailyData) => {
-        const dailyContainer = document.querySelector('.next-days');
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 
 
         for (let i = 0; i < dailyData.length - 5; i++) {
-            console.log(dailyData[i]);
+            const date = new Date(dailyData[i].dt * 1000);
+            const dayName = days[date.getDay()];
 
-            let hTag = document.createElement('h1');
-            hTag.innerHTML = dailyData[i].weather[0].description
-            dailyContainer.appendChild(hTag)
+            const dailyContainer = document.querySelector('.next-days');
+            const detailsContainer = document.createElement('div')
+            const tempItems = document.createElement('div');
+            detailsContainer.classList.add('details-container');
+            const detailItem = document.createElement('div');
+            detailItem.classList.add('details-item');
+
+            dailyContainer.appendChild(detailsContainer);
+            detailsContainer.appendChild(detailItem);
+            detailItem.innerHTML = `
+            <div class="temp-items">
+            <h3>${dayName}</h3>
+            <p><span id="max">${Math.round(dailyData[i].temp.max)}°</span>/ <span id="min">${Math.round(dailyData[i].temp.min)}°C</span></p>
+            </div>
+            <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
+            `
+
 
 
         }
-    }
-}
-
-let hourlyWeather = {
-    setHourlyWeather: (hourlyData) => {
-        const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-        ];
-
-        const data = {
-            labels: labels,
-            datasets: [{
-                backgroundColor: 'rgb(255, 255, 255)',
-                borderColor: 'rgb(255, 255, 255)',
-                data: [-10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40],
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data: data,
-            options: {}
-        };
-
-        const myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
     }
 }
 
@@ -203,6 +205,9 @@ window.addEventListener('load', () => {
     getLocation();
     setClockAndDate();
 });
+
+window.initMap = initMap;
+
 
 
 

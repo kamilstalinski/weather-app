@@ -48,6 +48,7 @@
             </div>
         </section>
         <section class="additional-info">
+
             <div class="additional-container">
                 <div class="weather-details">
                     <h2>Weather Details</h2>
@@ -74,31 +75,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="hourly-chart">
-                    <h2>Hourly</h2>
-                    <canvas id="myChart"></canvas>
-                </div>
+
+                <div class="line"></div>
                 <div class="next-days">
-                    <h2>Next Days</h2>
+                    <h2>Next 3 Days</h2>
                     <!-- <div class="details-container">
                         <div class="details-item">
-                            <h3>Monday</h3>
-                            <div class="details-info">
-                                <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-                                <div class="temp-items">
-                                    <p class="temp-day">21°</p>
-                                    <p class="temp-night">13°</p>
-                                </div>
+                            <div class="temp-items">
+                                <h3>Monday</h3>
+                                <p><span id="min">21°</span>/ <span id="min">13°</span></p>
                             </div>
+                            <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
                         </div>
                     </div> -->
                 </div>
+                <div class="line"></div>
+                <div id="map"></div>
             </div>
         </section>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <script src="js/app.js"></script>
+    <script async="false"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMcsawIHCAVBQOuo1Z6bRJAVHCrwn_H5M&callback=initMap"></script>
 </body>
 
 </html>

@@ -7,10 +7,11 @@
 
 body {
     height: 100vh;
-    background: url('../img/background/clear\ sky.jpg');
+    background-color: rgb(0, 174, 255);
+    /* background: url('../img/background/clear\ sky.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: inherit;
+    background-position: center;
     font-family: 'Libre Franklin';
     overflow: hidden;
 }
@@ -19,6 +20,14 @@ body {
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 100px;
+}
+
+/* Map */
+#map {
+    height: 300px;
+    width: 450px;
+    border-radius: 10%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
 /* Loader */
@@ -220,12 +229,20 @@ nav.search-bar .search-btn:hover {
 
 .additional-info .additional-container {
     max-width: 1440px;
-    margin: 0 auto;
+    padding: 5%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center;
     gap: 50px;
     color: #fff;
+}
+
+.additional-info .additional-container .line {
+    width: 1px;
+    height: 170px;
+    background-color: #c9c9c9;
+    align-self: center;
 }
 
 .additional-info .additional-container h2 {
@@ -268,23 +285,26 @@ h3 {
 }
 
 .additional-info .additional-container .details-container {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
 }
 
 .additional-info .additional-container .details-container .details-item {
-    flex-basis: 25px;
-}
-
-.additional-info .additional-container .details-container .details-item h3 {
-    margin-bottom: 10px;
-}
-
-.additional-info .additional-container .details-container .details-item .details-info {
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.additional-info .additional-container .details-container .details-item .temp-items {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.additional-info .additional-container .details-container .details-item .temp-items h3 {
+    transform: translateY(-1px);
 }
 
 @media screen and (max-width: 1150px) {
