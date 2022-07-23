@@ -1,4 +1,7 @@
-const apiKey = '1aea2c82b33f33484fe4babbf6bb420f'
+const apiKey = '1aea2c82b33f33484fe4babbf6bb420f';
+const unsplashKey = 'Iu_v5uR8-lAQ0HwMQ8K-9kyQisOyDCZ5qqSUk_Lu1dU';
+const googleApi = '';
+
 
 //Downloading HTML elements
 const weatherCity = document.getElementById('city');
@@ -15,6 +18,8 @@ const additionalContainer = document.querySelector('.details-container')
 const detailsContainer = document.querySelector('.additional-info');
 const dailyContainer = document.querySelector('.next-days');
 const loader = document.querySelector('.loader');
+const autocompleteItem = document.querySelector('.pac-item')
+let input = document.getElementById('search-input');
 
 
 let cityName;
@@ -48,27 +53,193 @@ const fetchWeatherAPI = (lat, long) => {
         .then(data => {
             currentWeather.setCurrentWeather(data[0][0].name, data[1].current);
             dailyWeather.setDailyWeather(data[1].daily);
-            initMap(lat, long)
+
+            initMap(lat, long, data[0][0].name)
+
         })
         .catch(err => {
             console.log(err)
         })
 
+
 }
 
 //setting initial position of google maps
-const initMap = (lat = 0, long = 0) => {
+const initMap = (lat = 0, long = 0, city = null) => {
 
     let map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: lat, lng: long },
         zoom: 10,
+        styles: [
+            {
+                "featureType": "all",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "color": "#000000"
+                    },
+                    {
+                        "lightness": 13
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#000000"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#144b53"
+                    },
+                    {
+                        "lightness": 14
+                    },
+                    {
+                        "weight": 1.4
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#08304b"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#0c4152"
+                    },
+                    {
+                        "lightness": 5
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#000000"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#0b434f"
+                    },
+                    {
+                        "lightness": 25
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#000000"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#0b3d51"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#000000"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#146474"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#021019"
+                    }
+                ]
+            }
+        ]
+
     });
 
     let marker = new google.maps.Marker({
         position: { lat: lat, lng: long },
         map: map
     });
+
+    const autocomplete = new google.maps.places.Autocomplete(input);
+
+    let request = {};
+
+    if (input.value) {
+        request.query = input.value
+    } else {
+        request.query = city
+    }
+
+    let service = new google.maps.places.PlacesService(map)
+    service.textSearch(request, callback)
+
+
 }
+
+function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        let backgroundPhoto = results[0].photos[0].getUrl();
+        const bgImage = `linear-gradient(0deg, rgba(0,0,0,0.8) 30%, rgba(255,255,255,0) 70%),url(${backgroundPhoto})`
+        document.body.style.backgroundImage = bgImage;
+
+    }
+}
+
 
 //Setting current Time and Date
 const setClockAndDate = () => {
@@ -94,7 +265,7 @@ let currentWeather = {
     // Setting current weather from API by changing DOM
     setCurrentWeather: function (cityName, weatherData) {
         loader.classList.add('hide')
-        weatherContainer.classList.add('weather-active');
+        // weatherContainer.classList.add('weather-active');
         detailsContainer.classList.add('active');
 
         const date = new Date(weatherData.dt * 1000)
@@ -123,15 +294,12 @@ let currentWeather = {
 
     //Searching choosen city and converting it to coordinates
     searchCity: function () {
-        let input = document.querySelector('.search');
-
         if (input.value) {
             fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${input.value}&limit=1&appid=${apiKey}`)
                 .then(res => res.json())
                 .then(data => {
 
                     loader.classList.remove('hide');
-
 
                     lat = data[0].lat;
                     long = data[0].lon;
@@ -151,11 +319,10 @@ let currentWeather = {
     //Setting weather icon and background according to current weather 
     setIcon: function (description) {
         const weatherIcon = document.getElementById('icon')
-        const bgImage = `linear-gradient(180deg, rgba(68, 78, 88, 0.1) 50%, rgb(0, 0, 0) 100%), url("./img/background/${description}.jpg")`
+
 
         if (description) {
             weatherIcon.setAttribute('src', `img/icons/${description}.svg`);
-            // document.body.style.backgroundImage = bgImage;
         }
     }
 };
@@ -170,22 +337,22 @@ let dailyWeather = {
             const date = new Date(dailyData[i].dt * 1000);
             const dayName = days[date.getDay()];
 
-            const dailyContainer = document.querySelector('.next-days');
-            const detailsContainer = document.createElement('div')
-            const tempItems = document.createElement('div');
-            detailsContainer.classList.add('details-container');
-            const detailItem = document.createElement('div');
-            detailItem.classList.add('details-item');
+            // const dailyContainer = document.querySelector('.next-days');
+            // const detailsContainer = document.createElement('div')
+            // const tempItems = document.createElement('div');
+            // detailsContainer.classList.add('details-container');
+            // const detailItem = document.createElement('div');
+            // detailItem.classList.add('details-item');
 
-            dailyContainer.appendChild(detailsContainer);
-            detailsContainer.appendChild(detailItem);
-            detailItem.innerHTML = `
-            <div class="temp-items">
-            <h3>${dayName}</h3>
-            <p><span id="max">${Math.round(dailyData[i].temp.max)}°</span>/ <span id="min">${Math.round(dailyData[i].temp.min)}°C</span></p>
-            </div>
-            <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
-            `
+            // dailyContainer.appendChild(detailsContainer);
+            // detailsContainer.appendChild(detailItem);
+            // detailItem.innerHTML = `
+            // <div class="temp-items">
+            // <h3>${dayName}</h3>
+            // <p><span id="max">${Math.round(dailyData[i].temp.max)}°</span>/ <span id="min">${Math.round(dailyData[i].temp.min)}°C</span></p>
+            // </div>
+            // <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
+            // `
 
 
 
@@ -201,12 +368,23 @@ document.querySelector('.search').addEventListener('keyup', (e) => {
     if (e.key === 'Enter') currentWeather.searchCity();
 });
 
+if (autocompleteItem) {
+    autocompleteItem.addEventListener('click', () => {
+        console.log('działa')
+    })
+}
+
+
 window.addEventListener('load', () => {
     getLocation();
     setClockAndDate();
 });
 
 window.initMap = initMap;
+
+
+
+
 
 
 

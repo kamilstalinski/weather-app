@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +24,7 @@
     </div>
     <div class="container">
         <nav class="search-bar">
-            <input class="search" type="text" placeholder="Search">
+            <input id="search-input" class="search" type="text" placeholder="Search">
             <button class="search-btn">
 
                 <svg stroke="#FFFFFF" fill="#FFFFFF" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em"
@@ -53,14 +54,6 @@
                 <div class="weather-details">
                     <h2>Weather Details</h2>
                     <div class="details-container">
-                        <!-- <div class="info-item">
-                            <h3>Min</h3>
-                            <p id="min">21</p>
-                        </div>
-                        <div class="info-item">
-                            <h3>Max</h3>
-                            <p id="max">34</p>
-                        </div> -->
                         <div class="info-item">
                             <h3>Cloudy</h3>
                             <p id="clouds">3%</p>
@@ -79,7 +72,7 @@
                 <div class="line"></div>
                 <div class="next-days">
                     <h2>Next 3 Days</h2>
-                    <!-- <div class="details-container">
+                    <div class="details-container">
                         <div class="details-item">
                             <div class="temp-items">
                                 <h3>Monday</h3>
@@ -87,18 +80,32 @@
                             </div>
                             <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
                         </div>
-                    </div> -->
+                        <div class="details-item">
+                            <div class="temp-items">
+                                <h3>Monday</h3>
+                                <p><span id="min">21°</span>/ <span id="min">13°</span></p>
+                            </div>
+                            <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
+                        </div>
+                        <div class="details-item">
+                            <div class="temp-items">
+                                <h3>Monday</h3>
+                                <p><span id="min">21°</span>/ <span id="min">13°</span></p>
+                            </div>
+                            <img class="weather-icon" src="./img/icons/scattered clouds.svg" alt="weather-icon">
+                        </div>
+                    </div>
                 </div>
                 <div class="line"></div>
+
                 <div id="map"></div>
             </div>
         </section>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <script src="js/app.js"></script>
-    <script async="false"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMcsawIHCAVBQOuo1Z6bRJAVHCrwn_H5M&callback=initMap"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMcsawIHCAVBQOuo1Z6bRJAVHCrwn_H5M&libraries=places&language=en&callback=initMap"></script>
 </body>
 
 </html>

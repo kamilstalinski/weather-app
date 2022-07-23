@@ -5,6 +5,12 @@
     font-weight: 400;
 }
 
+html {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
 body {
     height: 100vh;
     background-color: rgb(0, 174, 255);
@@ -20,14 +26,65 @@ body {
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 100px;
+    height: 65%;
 }
 
-/* Map */
-#map {
-    height: 300px;
-    width: 450px;
-    border-radius: 10%;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+
+/* Autocomplete */
+.pac-container {
+    position: relative;
+    background-color: rgba(125, 125, 125, 0.5);
+    padding: 10px 0 10px 0;
+    box-shadow: none;
+    border: none;
+    border-radius: 21px;
+    overflow: visible;
+    /* transform: translateY(-40px); */
+    font-family: 'Libre Franklin';
+}
+
+
+/* .pac-container::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    padding: 15px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 30px;
+    top: 0;
+    background-color: red;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    opacity: .5;
+    z-index: -1;
+
+} */
+
+.pac-container::after {
+    display: none;
+}
+
+.pac-icon {
+    display: none;
+}
+
+.pac-item {
+    margin: none;
+    border: none;
+    padding: 0 20px;
+    color: rgb(214, 214, 214);
+    cursor: pointer;
+}
+
+.pac-item:hover {
+    background-color: rgba(53, 53, 53, 0.5);
+}
+
+.pac-item-query {
+    color: #fff;
 }
 
 /* Loader */
@@ -38,6 +95,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 11111;
+    /* display: none; */
 }
 
 .hide {
@@ -93,6 +151,7 @@ nav.search-bar {
     display: flex;
     justify-content: end;
     align-items: center;
+    z-index: 3;
 }
 
 nav.search-bar input.search {
@@ -103,14 +162,18 @@ nav.search-bar input.search {
     border: none;
     border-radius: 30px;
     outline: none;
-    background-color: rgba(255, 255, 255, 0.607);
-    color: #4c4c4c;
+    background-color: rgba(125, 125, 125, 0.5);
+    color: #ffffff;
     font-size: 16px;
+}
+
+nav.search-bar input.search:focus {
+    background-color: rgba(153, 153, 153, 0.5);
 }
 
 nav.search-bar input::placeholder {
     font-size: 16px;
-    color: #4c4c4c;
+    color: rgb(208, 208, 208);
     opacity: 1;
     font-family: 'Libre Franklin', serif;
 }
@@ -135,18 +198,13 @@ nav.search-bar .search-btn:hover {
 
 /* Weather information section */
 .weather {
-    height: calc(100vh - 500px);
+    height: calc(100% - 100px);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     color: #fff;
     z-index: 111;
-    opacity: 0;
-    transition: 1s ease-in-out;
-}
-
-.weather-active {
-    opacity: 1;
+    /* transition:  1s ease-in-out; */
 }
 
 .weather .temp-city-container {
@@ -184,6 +242,16 @@ nav.search-bar .search-btn:hover {
 }
 
 @media screen and (max-width: 1150px) {
+    .weather {
+        height: 60%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        color: #fff;
+        z-index: 111;
+        /* transition: 1s ease-in-out; */
+    }
+
     .weather .temp-city-container #temp {
         font-size: 90px;
         line-height: 78px;
@@ -210,7 +278,7 @@ nav.search-bar .search-btn:hover {
 .additional-info {
     position: absolute;
     width: 100vw;
-    height: 375px;
+    height: 35%;
     left: 0px;
     bottom: 0px;
     display: flex;
@@ -219,7 +287,7 @@ nav.search-bar .search-btn:hover {
     background: rgba(68, 78, 88, 0.5);
     box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(3px);
-    transform: translateY(375px);
+    transform: translateY(100%);
     transition: transform 1s ease-in-out;
 }
 
@@ -229,13 +297,23 @@ nav.search-bar .search-btn:hover {
 
 .additional-info .additional-container {
     max-width: 1440px;
-    padding: 5%;
+    height: 100%;
+    padding: 20px 50px;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
     color: #fff;
+}
+
+/* Map */
+#map {
+    flex-basis: 40%;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
 .additional-info .additional-container .line {
@@ -255,10 +333,10 @@ nav.search-bar .search-btn:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 350px;
+    width: 250px;
 }
 
-.additional-info .additional-container .weather-details .details-container {
+.details-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -289,12 +367,16 @@ h3 {
     display: flex;
 }
 
+.additional-info .additional-container .details-container {
+    width: 100%;
+    display: flex;
+}
+
 .additional-info .additional-container .details-container .details-item {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
 }
 
 .additional-info .additional-container .details-container .details-item .temp-items {
@@ -308,8 +390,27 @@ h3 {
 }
 
 @media screen and (max-width: 1150px) {
+    .additional-info {
+        overflow: scroll;
+        overflow-x: hidden;
+        height: 50%;
+    }
 
-    .additional-info .additional-container h2 {
+    .additional-info .additional-container {
+        flex-wrap: wrap;
+        top: 0;
+    }
+
+    .additional-info .additional-container .line {
+        display: none;
+    }
+
+    #map {
+        flex-basis: 80%;
+        height: 60%;
+    }
+
+    /* .additional-info .additional-container h2 {
         font-size: 20px;
     }
 
@@ -319,7 +420,7 @@ h3 {
 
     h3 {
         font-size: 17px;
-    }
+    } */
 
 
 }
