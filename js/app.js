@@ -1,3 +1,5 @@
+const apiKey = config.WEATHER_API_KEY;
+
 //Downloading HTML elements
 const weatherCity = document.getElementById('city');
 const weatherTemp = document.getElementById('temp');
@@ -38,7 +40,7 @@ const getLocation = () => {
 
 //Fetching weather data
 const fetchWeatherAPI = (lat, long) => {
-    const apiKey = config.WEATHER_KEY;
+
 
     Promise.all([
         fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${long}&limit=5&appid=${apiKey}`)

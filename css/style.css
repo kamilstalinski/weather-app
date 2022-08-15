@@ -243,7 +243,7 @@ nav.search-bar .search-btn:hover {
 
 @media screen and (max-width: 1150px) {
     .weather {
-        height: 60%;
+        height: 50%;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
