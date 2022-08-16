@@ -12,8 +12,8 @@ const weatherMinTemp = document.getElementById('min');
 const weatherMaxTemp = document.getElementById('max');
 const weatherContainer = document.querySelector('.weather');
 const additionalContainer = document.querySelector('.details-container')
+const dailyContainer = document.querySelector('.next-details-container');
 const detailsContainer = document.querySelector('.additional-info');
-const dailyContainer = document.querySelector('.next-days');
 const loader = document.querySelector('.loader');
 const autocompleteItem = document.querySelector('.pac-item')
 let input = document.getElementById('search-input');
@@ -282,6 +282,7 @@ let currentWeather = {
                         fetchWeatherAPI(lat, long)
                         initMap(lat, long);
                         input.value = '';
+                        dailyContainer.innerHTML = '';
                     }, 1000);
                 })
         } else {
@@ -306,8 +307,32 @@ let currentWeather = {
 };
 
 let dailyWeather = {
+
+
     setDailyWeather: (dailyData) => {
         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        console.log(dailyData);
+
+        for (let i = 0; i < dailyData.length - 5; i++) {
+            const date = new Date(dailyData[i].dt * 1000);
+            const dayName = days[date.getDay()];
+
+            const detailsContainer = document.createElement('div')
+            const tempItems = document.createElement('div');
+            detailsContainer.classList.add('details-container');
+            const detailItem = document.createElement('div');
+            detailItem.classList.add('details-item');
+
+            dailyContainer.appendChild(detailsContainer);
+            detailsContainer.appendChild(detailItem);
+            detailItem.innerHTML = `
+            <div class="temp-items">
+            <h3>${dayName}</h3>
+            <p><span id="max">${Math.round(dailyData[i].temp.max)}°</span>/ <span id="min">${Math.round(dailyData[i].temp.min)}°C</span></p>
+            </div>
+            <img class="weather-icon" src="./img/icons/${dailyData[i].weather[0].description}.svg" alt="weather-icon">
+            `
+        }
 
     }
 }

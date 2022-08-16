@@ -410,11 +410,20 @@ nav.search-bar .search-btn:hover {
     width: 250px;
 }
 
+.additional-info .additional-container .weather-details .details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    height: 190px;
+}
+
 .next-details-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+    height: 190px;
 }
 
 .additional-info .additional-container .next-days {
@@ -425,7 +434,6 @@ nav.search-bar .search-btn:hover {
 .additional-info .additional-container .info-item {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
 }
 
 .additional-info .additional-container .info-item p {
@@ -442,16 +450,11 @@ h3 {
     display: flex;
 }
 
-.additional-info .additional-container .next-details-container {
-    width: 100%;
-    display: flex;
-}
-
 .additional-info .additional-container .next-details-container .details-item {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-content: space-evenly;
 }
 
 .additional-info .additional-container .next-details-container .details-item .temp-items {
@@ -488,18 +491,6 @@ h3 {
     .additional-info .additional-container .info-item {
         margin-top: 15px;
     }
-
-    /* .additional-info .additional-container h2 {
-        font-size: 20px;
-    }
-
-    .additional-info .additional-container .info-item p {
-        font-size: 17px;
-    }
-
-    h3 {
-        font-size: 17px;
-    } */
 }
 
 @media screen and (max-width: 600px) {
