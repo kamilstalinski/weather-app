@@ -1,6 +1,7 @@
 const apiKey = config.WEATHER_API_KEY;
 
 //Downloading HTML elements
+const searchBar = document.querySelector('.search-bar')
 const weatherCity = document.getElementById('city');
 const weatherTemp = document.getElementById('temp');
 const weatherHumidity = document.getElementById('humidity');
@@ -248,6 +249,7 @@ let currentWeather = {
         weatherContainer.classList.add('active')
         detailsContainer.classList.add('active');
 
+
         const { temp, humidity } = weatherData;
         const { description } = weatherData.weather[0];
         const { wind_speed } = weatherData;
@@ -274,6 +276,7 @@ let currentWeather = {
                     weatherContainer.classList.remove('active')
                     detailsContainer.classList.remove('active')
                     loader.classList.remove('hide');
+
 
                     lat = data[0].lat;
                     long = data[0].lon;
