@@ -302,7 +302,7 @@ let currentWeather = {
 
     setBackground: (description) => {
         if (description) {
-            const bgImage = `linear-gradient(0deg, rgba(0,0,0,0.8) 30%, rgba(255,255,255,0) 70%),url('/img/background/${description}.jpg')`
+            const bgImage = `linear-gradient(0deg, rgba(64,64,64,0.8) 50%, rgba(255,255,255,0.6418942577030813) 100%), url('/img/background/${description}.jpg')`
             document.body.style.backgroundImage = bgImage;
         }
     }
