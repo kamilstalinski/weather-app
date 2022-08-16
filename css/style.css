@@ -14,7 +14,8 @@ html {
 
 body {
     min-height: 100%;
-    background-color: rgb(0, 174, 255);
+    background: rgb(31, 78, 252);
+    background: linear-gradient(0deg, rgba(31, 78, 252, 1) 0%, rgba(196, 222, 255, 1) 100%);
     /* background: url('../img/background/clear\ sky.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
@@ -97,13 +98,13 @@ body {
 
 /* Loader */
 .loader {
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 11111;
-    /* display: none; */
 }
 
 .hide {
@@ -220,7 +221,12 @@ nav.search-bar .search-btn:hover {
     align-items: flex-end;
     color: #fff;
     z-index: 111;
-    /* transition:  1s ease-in-out; */
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+}
+
+.weather.active {
+    opacity: 1;
 }
 
 .weather .temp-city-container {
@@ -311,6 +317,14 @@ nav.search-bar .search-btn:hover {
         margin: 0;
     }
 
+    .weather .temp-city-container #city {
+        text-align: center;
+    }
+
+    .weather .description-container #description {
+        font-size: 20px;
+    }
+
     .weather .description-container {
         display: flex;
         justify-content: center;
@@ -360,6 +374,11 @@ nav.search-bar .search-btn:hover {
     align-items: center;
     gap: 30px;
     color: #fff;
+    transition: opacity .2s ease-in;
+}
+
+.additional-container.hide {
+    opacity: 0;
 }
 
 /* Map */

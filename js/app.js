@@ -221,16 +221,20 @@ const initMap = (lat = 0, long = 0, city = null) => {
 const setClockAndDate = () => {
     setInterval(() => {
         const date = new Date();
-        const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
         let hours = date.getHours();
         let minutes = date.getMinutes();
-        let day = date.getDay();
+        let day = date.getDate();
+        let dayName = days[date.getDay() - 1];
         let monthName = month[date.getMonth()]
         let year = date.getFullYear();
 
         if (hours < 10) hours = '0' + hours;
         if (minutes < 10) minutes = '0' + minutes;
+
+        weatherDate.innerText = `${hours}:${minutes} ${dayName}, ${day} ${monthName} ${year}`;
 
     }, 1000)
 }
@@ -241,15 +245,8 @@ let currentWeather = {
     // Setting current weather from API by changing DOM
     setCurrentWeather: function (cityName, weatherData) {
         loader.classList.add('hide')
-        // weatherContainer.classList.add('weather-active');
+        weatherContainer.classList.add('active')
         detailsContainer.classList.add('active');
-
-        const date = new Date(weatherData.dt * 1000)
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-
-        weatherDate.innerText = `${hours}:${minutes}`;
-
 
         const { temp, humidity } = weatherData;
         const { description } = weatherData.weather[0];
@@ -274,14 +271,14 @@ let currentWeather = {
             fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${input.value}&limit=1&appid=${apiKey}`)
                 .then(res => res.json())
                 .then(data => {
-
+                    weatherContainer.classList.remove('active')
+                    detailsContainer.classList.remove('active')
                     loader.classList.remove('hide');
 
                     lat = data[0].lat;
                     long = data[0].lon;
 
                     setTimeout(() => {
-                        dailyContainer.innerHTML = '';
                         fetchWeatherAPI(lat, long)
                         initMap(lat, long);
                         input.value = '';
@@ -312,10 +309,6 @@ let dailyWeather = {
     setDailyWeather: (dailyData) => {
         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-        for (let i = 0; i < dailyData.length - 5; i++) {
-            const date = new Date(dailyData[i].dt * 1000);
-            const dayName = days[date.getDay()];
-        }
     }
 }
 
