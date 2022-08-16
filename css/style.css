@@ -12,7 +12,7 @@ html {
 }
 
 body {
-    height: 100vh;
+    min-height: 100vh;
     background-color: rgb(0, 174, 255);
     /* background: url('../img/background/clear\ sky.jpg'); */
     background-repeat: no-repeat;
@@ -213,7 +213,7 @@ nav.search-bar .search-btn:hover {
 
 /* Weather information section */
 .weather {
-    height: calc(100% - 100px);
+    height: calc(65vh - 100px);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -258,7 +258,7 @@ nav.search-bar .search-btn:hover {
 
 @media screen and (max-width: 1150px) {
     .weather {
-        height: 60%;
+        height: 40vh;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
@@ -296,6 +296,7 @@ nav.search-bar .search-btn:hover {
         justify-content: center;
         align-items: center;
         gap: 40px;
+        margin-top: 20px;
     }
 
     .weather .temp-city-container {
@@ -514,5 +515,6 @@ h3 {
 
     #map {
         flex-basis: 100%;
+        height: ;
     }
 }
