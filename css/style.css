@@ -291,6 +291,7 @@ nav.search-bar .search-btn:hover {
 
 @media screen and (max-width: 600px) {
     .weather {
+        height: 50%;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -482,7 +483,7 @@ h3 {
 
 @media screen and (max-width: 600px) {
     .additional-info .additional-container {
-        padding: 20px 10%;
+        padding: 10% 10%;
     }
 
     .additional-info .additional-container .line {
