@@ -29,6 +29,13 @@ body {
     height: 65%;
 }
 
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 5%;
+        height: 90%;
+    }
+}
+
 
 
 /* Autocomplete */
@@ -196,6 +203,14 @@ nav.search-bar .search-btn:hover {
     background-color: rgba(153, 153, 153, 0.5);
 }
 
+@media screen and (max-width: 600px) {
+    nav.search-bar {
+        padding-top: 0;
+        justify-content: space-between;
+    }
+
+}
+
 /* Weather information section */
 .weather {
     height: calc(100% - 100px);
@@ -243,7 +258,7 @@ nav.search-bar .search-btn:hover {
 
 @media screen and (max-width: 1150px) {
     .weather {
-        height: 50%;
+        height: 60%;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
@@ -274,7 +289,44 @@ nav.search-bar .search-btn:hover {
     }
 }
 
+@media screen and (max-width: 600px) {
+    .weather {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .weather .temp-city-container {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .weather .temp-city-container #temp {
+        font-size: 100px;
+        margin: 0;
+    }
+
+    .weather .description-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 /* Additional info section */
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(228, 228, 228, 0.5);
+    border-radius: 10px;
+}
+
 .additional-info {
     position: absolute;
     width: 100vw;
@@ -336,7 +388,7 @@ nav.search-bar .search-btn:hover {
     width: 250px;
 }
 
-.details-container {
+.next-details-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -351,6 +403,7 @@ nav.search-bar .search-btn:hover {
 .additional-info .additional-container .info-item {
     display: flex;
     justify-content: space-between;
+    margin-top: 15px;
 }
 
 .additional-info .additional-container .info-item p {
@@ -362,30 +415,30 @@ h3 {
     font-size: 20px;
 }
 
-.additional-info .additional-container .details-container {
+.additional-info .additional-container .next-details-container {
     width: 100%;
     display: flex;
 }
 
-.additional-info .additional-container .details-container {
+.additional-info .additional-container .next-details-container {
     width: 100%;
     display: flex;
 }
 
-.additional-info .additional-container .details-container .details-item {
+.additional-info .additional-container .next-details-container .details-item {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.additional-info .additional-container .details-container .details-item .temp-items {
+.additional-info .additional-container .next-details-container .details-item .temp-items {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.additional-info .additional-container .details-container .details-item .temp-items h3 {
+.additional-info .additional-container .next-details-container .details-item .temp-items h3 {
     transform: translateY(-1px);
 }
 
@@ -401,13 +454,17 @@ h3 {
         top: 0;
     }
 
-    .additional-info .additional-container .line {
+    .additional-info .additional-container .line.last {
         display: none;
     }
 
     #map {
         flex-basis: 80%;
         height: 60%;
+    }
+
+    .additional-info .additional-container .info-item {
+        margin-top: 15px;
     }
 
     /* .additional-info .additional-container h2 {
@@ -421,6 +478,36 @@ h3 {
     h3 {
         font-size: 17px;
     } */
+}
 
+@media screen and (max-width: 600px) {
+    .additional-info .additional-container {
+        padding: 20px 10%;
+    }
 
+    .additional-info .additional-container .line {
+        display: block;
+        height: 1px;
+        width: 80%;
+    }
+
+    .additional-info .additional-container .weather-details {
+        width: 100%;
+    }
+
+    .additional-info .additional-container .info-item {
+        margin-top: 10px;
+    }
+
+    .additional-info .additional-container .next-days {
+        flex-basis: 100%;
+    }
+
+    .additional-info .additional-container .next-days h2 {
+        display: none;
+    }
+
+    #map {
+        flex-basis: 100%;
+    }
 }

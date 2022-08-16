@@ -312,8 +312,6 @@ let dailyWeather = {
     setDailyWeather: (dailyData) => {
         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
-
-
         for (let i = 0; i < dailyData.length - 5; i++) {
             const date = new Date(dailyData[i].dt * 1000);
             const dayName = days[date.getDay()];
